@@ -1,11 +1,11 @@
 package com.znow.aquatexteditor;
 
-import com.znow.aquatexteditor.gui.MainWindow;
+import com.znow.aquatexteditor.gui.Window;
 
 public class Main {
 
 	public static void main(String[] args) {
-		MainWindow window = new MainWindow();
+		Window window = new Window();
 	}
 
 }
