@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.znow.aquatexteditor.controller.FileManager;
+
 public class Window extends JFrame{
 	
 	private JFrame frame;
@@ -73,8 +75,7 @@ public class Window extends JFrame{
 		else if (name.equals("Save")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Save");
-				System.out.println(fileContent.getText());
+				FileManager.saveFile(fileContent.getText());
 			}
 			});
 		}
