@@ -10,15 +10,17 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.znow.aquatexteditor.Main;
 import com.znow.aquatexteditor.controller.FileManager;
 
 public class Window extends JFrame{
 	
 	private JFrame frame;
-	private JTextArea fileContent;
+	private JTextArea fileContentArea;
 	
 	
 	public Window() {
@@ -47,8 +49,8 @@ public class Window extends JFrame{
 		JButton settingsButton = getButton("Settings");
 		buttonsPanel.add(settingsButton);
 		
-		fileContent = new JTextArea();
-		getContentPane().add(fileContent, BorderLayout.CENTER);
+		fileContentArea = new JTextArea();
+		getContentPane().add(fileContentArea, BorderLayout.CENTER);
 		
 		pack();
 		
@@ -70,27 +72,29 @@ public class Window extends JFrame{
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Open new file");
-				System.out.println(fileContent.getText());
+				System.out.println(fileContentArea.getText());
 			}
 			});
 		}
 		else if (name.equals("Save")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FileManager.saveFile(fileContent.getText());
+				FileManager.saveFile(fileContentArea.getText());
 			}
 			});
 		}
 		else if (name.equals("Open")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					checkIfSaveFile();
+					
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 					int returnValue = fileChooser.showOpenDialog(Window.this);
 					
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						File file = fileChooser.getSelectedFile();
-						FileManager.openFile(file, fileContent);
+						FileManager.openFile(file, fileContentArea);
 					}
 				}
 			});
@@ -99,7 +103,7 @@ public class Window extends JFrame{
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("Save as...");
-					System.out.println(fileContent.getText());
+					System.out.println(fileContentArea.getText());
 				}
 			});
 		}
@@ -107,12 +111,21 @@ public class Window extends JFrame{
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("Settings");
-					System.out.println(fileContent.getText());
+					System.out.println(fileContentArea.getText());
 				}
 			});
 		}
 		
 		return button;
+	}
+	
+	private void checkIfSaveFile() {
+		if ((Main.openedFile != null && Main.openedFile.getContent() != fileContentArea.getText()) || (Main.openedFile == null && !fileContentArea.getText().equals(""))) {
+			int option = JOptionPane.showConfirmDialog(this, "Do you want to save current file?", "Save file", JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+			    FileManager.saveFile(fileContentArea.getText());
+			}
+		}
 	}
 	
 }

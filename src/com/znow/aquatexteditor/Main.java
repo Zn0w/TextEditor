@@ -1,12 +1,11 @@
 package com.znow.aquatexteditor;
 
-import java.io.File;
-
+import com.znow.aquatexteditor.domain.OpenedFile;
 import com.znow.aquatexteditor.gui.Window;
 
 public class Main {
 	
-	public static File openedFile;
+	public static OpenedFile openedFile;
 	
 	
 	public static void main(String[] args) {

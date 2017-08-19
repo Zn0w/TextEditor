@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javax.swing.JTextArea;
 
 import com.znow.aquatexteditor.Main;
+import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
 	
@@ -15,8 +16,6 @@ public class FileManager {
 	}
 	
 	public static void openFile(File file, JTextArea fileContentArea) {
-		Main.openedFile = file;
-		
 		Scanner scan = null;
 		try {
 			scan = new Scanner(file);
@@ -25,6 +24,8 @@ public class FileManager {
 			e.printStackTrace();
 		}
 		String content = scan.next();
+		
+		Main.openedFile = new OpenedFile(file, content);
 		
 		fileContentArea.setText(content);
 	}
