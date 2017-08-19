@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -82,8 +84,14 @@ public class Window extends JFrame{
 		else if (name.equals("Open")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Open");
-					System.out.println(fileContent.getText());
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					int returnValue = fileChooser.showOpenDialog(Window.this);
+					
+					if (returnValue == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						FileManager.openFile(file, fileContent);
+					}
 				}
 			});
 		}
