@@ -19,7 +19,7 @@ import com.znow.aquatexteditor.controller.FileManager;
 
 public class Window extends JFrame{
 	
-	private JFrame frame;
+	private static final long serialVersionUID = 1L;
 	private JTextArea fileContentArea;
 	
 	
@@ -79,7 +79,7 @@ public class Window extends JFrame{
 		else if (name.equals("Save")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FileManager.saveFile(fileContentArea.getText());
+				verifyFileSaving();
 			}
 			});
 		}
@@ -123,8 +123,17 @@ public class Window extends JFrame{
 		if ((Main.openedFile != null && Main.openedFile.getContent() != fileContentArea.getText()) || (Main.openedFile == null && !fileContentArea.getText().equals(""))) {
 			int option = JOptionPane.showConfirmDialog(this, "Do you want to save current file?", "Save file", JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-			    FileManager.saveFile(fileContentArea.getText());
+			    verifyFileSaving();
 			}
+		}
+	}
+	
+	private void verifyFileSaving() {
+		if (Main.openedFile == null) {
+			// Show dialog window to find out new file path
+		}
+		else {
+			FileManager.saveToExistingFile(fileContentArea.getText(), Main.openedFile.getFile());
 		}
 	}
 	

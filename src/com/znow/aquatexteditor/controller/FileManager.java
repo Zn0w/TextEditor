@@ -2,6 +2,8 @@ package com.znow.aquatexteditor.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JTextArea;
@@ -11,8 +13,18 @@ import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
 	
-	public static void saveFile(String content) {
+	public static void saveToNewFile(String content, File file) {
 		
+	}
+	
+	public static void saveToExistingFile(String content, File file) {
+		try {
+			FileWriter writer = new FileWriter(file, false);
+			writer.write(content);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void openFile(File file, JTextArea fileContentArea) {

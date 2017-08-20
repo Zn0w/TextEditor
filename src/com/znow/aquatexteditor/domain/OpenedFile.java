@@ -9,7 +9,8 @@ public class OpenedFile {
 	
 	
 	public OpenedFile(File file, String content) {
-		
+		this.file = file;
+		this.content = content;
 	}
 
 	public File getFile() {
