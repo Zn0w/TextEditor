@@ -71,8 +71,9 @@ public class Window extends JFrame{
 		if (name.equals("New")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Open new file");
-				System.out.println(fileContentArea.getText());
+				checkIfSaveFile();
+				fileContentArea.setText("");
+				Main.openedFile = null;
 			}
 			});
 		}
@@ -130,7 +131,15 @@ public class Window extends JFrame{
 	
 	private void verifyFileSaving() {
 		if (Main.openedFile == null) {
-			// Show dialog window to find out new file path
+			JFileChooser fileChooser = new JFileChooser();
+			int returnValue = fileChooser.showSaveDialog(this);
+			
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				String message = FileManager.saveToNewFile(fileContentArea.getText(), file);
+				
+				JOptionPane.showMessageDialog(this, message);
+			}
 		}
 		else {
 			FileManager.saveToExistingFile(fileContentArea.getText(), Main.openedFile.getFile());

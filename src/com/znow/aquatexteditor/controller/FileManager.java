@@ -13,17 +13,41 @@ import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
 	
-	public static void saveToNewFile(String content, File file) {
+	public static String saveToNewFile(String content, File file) {
+		String message = "";
 		
+		try {
+			if (file.createNewFile()) {
+				message = "File has been succesfully created!";
+			}
+			else {
+				message = "File with this name and location already exists!";
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			message = "Error! Couldn't create new file.";
+		}
+		
+		saveToExistingFile(content, file);
+		
+		return message;
 	}
 	
 	public static void saveToExistingFile(String content, File file) {
+		FileWriter writer = null;
+		
 		try {
-			FileWriter writer = new FileWriter(file, false);
+			writer = new FileWriter(file, false);
 			writer.write(content);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
