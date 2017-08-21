@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.swing.JTextArea;
@@ -34,6 +35,8 @@ public class FileManager {
 	}
 	
 	public static void saveToExistingFile(String content, File file) {
+		content = content.replaceAll("(?!\\r)\\n", "\r\n");
+		
 		FileWriter writer = null;
 		
 		try {
@@ -59,7 +62,14 @@ public class FileManager {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		String content = scan.next();
+		
+		String content = "";
+		
+		try {
+			content = scan.next();
+		} catch (NoSuchElementException ex) {
+			
+		}
 		
 		Main.openedFile = new OpenedFile(file, content);
 		

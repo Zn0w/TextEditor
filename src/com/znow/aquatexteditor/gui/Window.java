@@ -73,6 +73,7 @@ public class Window extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				checkIfSaveFile();
 				fileContentArea.setText("");
+				setTitle("AquaTextEditor");
 				Main.openedFile = null;
 			}
 			});
@@ -96,6 +97,7 @@ public class Window extends JFrame{
 					if (returnValue == JFileChooser.APPROVE_OPTION) {
 						File file = fileChooser.getSelectedFile();
 						FileManager.openFile(file, fileContentArea);
+						setTitle("AquaTextEditor ("+ Main.openedFile.getFile().getName() +")");
 					}
 				}
 			});
