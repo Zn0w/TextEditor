@@ -5,14 +5,18 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 import com.znow.aquatexteditor.Main;
 import com.znow.aquatexteditor.controller.FileManager;
@@ -41,6 +45,7 @@ public class Window extends JFrame{
 		buttonsPanel.add(openButton);
 		
 		JButton saveButton = getButton("Save");
+		saveButton.setMnemonic(KeyEvent.VK_S);
 		buttonsPanel.add(saveButton);
 		
 		JButton saveAsButton = getButton("Save as ...");
@@ -50,7 +55,8 @@ public class Window extends JFrame{
 		buttonsPanel.add(settingsButton);
 		
 		fileContentArea = new JTextArea();
-		getContentPane().add(fileContentArea, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(fileContentArea);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		pack();
 		
@@ -113,13 +119,26 @@ public class Window extends JFrame{
 		else if (name.equals("Settings")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Settings");
-					System.out.println(fileContentArea.getText());
+					JFrame settingsFrame = getSettingsFrame();
+					settingsFrame.setVisible(true);
 				}
 			});
 		}
 		
 		return button;
+	}
+	
+	private JFrame getSettingsFrame() {
+		JFrame settingsFrame = new JFrame();
+		settingsFrame.setTitle("AquaTextEditor (Settings)");
+		settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		settingsFrame.setContentPane(panel);
+		
+		return settingsFrame;
 	}
 	
 	private void checkIfSaveFile() {
