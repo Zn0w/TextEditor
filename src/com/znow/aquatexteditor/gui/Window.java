@@ -2,6 +2,7 @@ package com.znow.aquatexteditor.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +11,13 @@ import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 
 import com.znow.aquatexteditor.Main;
 import com.znow.aquatexteditor.controller.FileManager;
@@ -56,6 +57,7 @@ public class Window extends JFrame{
 		
 		fileContentArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(fileContentArea);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		pack();
@@ -132,11 +134,50 @@ public class Window extends JFrame{
 		JFrame settingsFrame = new JFrame();
 		settingsFrame.setTitle("AquaTextEditor (Settings)");
 		settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		settingsFrame.setSize(350, 400);
+		settingsFrame.setLocationRelativeTo(null);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		settingsFrame.setContentPane(panel);
+		
+		String[] fontOptions = {"Serif", "Agency FB", "Arial", "Cosolas", "Calibri", "Cambrian", "Century Gothic", "Comic Sans MS", "Courier New", "Forte", "Garamond", "Monospaced", "Segoe UI", "Times New Roman", "Trebuchet MS"};
+		
+		JComboBox fontSelector = new JComboBox(fontOptions);
+		for (int i = 0; i < fontOptions.length; i++) {
+			if (fontOptions[i].equals(fileContentArea.getFont().getFontName()))
+				fontSelector.setSelectedIndex(i);
+		}
+		fontSelector.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String font = (String) fontSelector.getSelectedItem();
+				
+				Font oldFont = fileContentArea.getFont();
+				fileContentArea.setFont(new Font(font, oldFont.getStyle(), oldFont.getSize()));
+			}
+		});
+		
+		String[] sizeOptions = {"8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28"};
+		
+		JComboBox fontSizeSelector = new JComboBox(sizeOptions);
+		for (int i = 0; i < sizeOptions.length; i++) {
+			if (Integer.valueOf(sizeOptions[i]) == fileContentArea.getFont().getSize())
+				fontSizeSelector.setSelectedIndex(i);
+		}
+		fontSizeSelector.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String size = (String) fontSizeSelector.getSelectedItem();
+				
+				Font oldFont = fileContentArea.getFont();
+				fileContentArea.setFont(new Font(oldFont.getFontName(), oldFont.getStyle(), Integer.valueOf(size)));
+			}
+		});
+		
+		panel.add(fontSelector);
+		panel.add(fontSizeSelector);
 		
 		return settingsFrame;
 	}
