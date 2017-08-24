@@ -1,4 +1,4 @@
-package com.znow.aquatexteditor.controller;
+package com.znow.aquatexteditor.filemanager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import javax.swing.JTextArea;
 
-import com.znow.aquatexteditor.Main;
+import com.znow.aquatexteditor.controller.MainController;
 import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
@@ -71,7 +71,7 @@ public class FileManager {
 			
 		}
 		
-		Main.openedFile = new OpenedFile(file, content);
+		MainController.openedFile = new OpenedFile(file, content);
 		
 		fileContentArea.setText(content);
 	}
