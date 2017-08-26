@@ -148,5 +148,9 @@ public class MainWindow extends JFrame {
 			FileManager.saveToExistingFile(fileContentArea.getText(), MainController.openedFile.getFile());
 		}
 	}
+
+	public JTextArea getFileContentArea() {
+		return fileContentArea;
+	}
 	
 }

@@ -11,6 +11,7 @@ public class MainController {
 	public void start() {
 		MainWindow window = new MainWindow();
 		window.draw();
+		window.getFileContentArea().addKeyListener(new KeyboardController(window.getFileContentArea()));
 	}
 	
 }
