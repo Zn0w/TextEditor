@@ -1,4 +1,4 @@
-package com.znow.aquatexteditor.filemanager;
+package com.znow.aquatexteditor.filemanagers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
 	
-	public static String saveToNewFile(String content, File file) {
+	public String saveToNewFile(String content, File file) {
 		String message = "";
 		
 		try {
@@ -34,7 +34,7 @@ public class FileManager {
 		return message;
 	}
 	
-	public static void saveToExistingFile(String content, File file) {
+	public void saveToExistingFile(String content, File file) {
 		content = content.replaceAll("(?!\\r)\\n", "\r\n");
 		
 		FileWriter writer = null;
@@ -54,7 +54,7 @@ public class FileManager {
 		}
 	}
 	
-	public static void openFile(File file, JTextArea fileContentArea) {
+	public void openFile(File file, JTextArea fileContentArea, MainController controller) {
 		Scanner scan = null;
 		try {
 			scan = new Scanner(file);
@@ -71,7 +71,7 @@ public class FileManager {
 			
 		}
 		
-		MainController.openedFile = new OpenedFile(file, content);
+		controller.openedFile = new OpenedFile(file, content);
 		
 		fileContentArea.setText(content);
 	}

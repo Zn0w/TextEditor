@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
-class SettingsWindow extends JFrame {
+public class SettingsWindow extends JFrame {
 	
 	private String[] fontOptions = { "Serif", "Agency FB", "Arial", "Consolas", "Calibri", "Century Gothic", "Comic Sans MS", "Courier New", "Forte", "Garamond", "Monospaced", "Segoe UI", "Times New Roman", "Trebuchet MS" };
 	private String[] sizeOptions = { "8", "10", "12", "14", "16", "18", "20", "22", "24", "26", "28" };
@@ -23,7 +23,7 @@ class SettingsWindow extends JFrame {
 		this.fileContentArea = fileContentArea;
 	}
 	
-	void draw() {
+	public void draw() {
 		setTitle("AquaTextEditor (Settings)");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(350, 200);

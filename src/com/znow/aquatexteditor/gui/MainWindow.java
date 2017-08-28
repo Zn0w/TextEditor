@@ -6,24 +6,26 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.znow.aquatexteditor.controller.MainController;
-import com.znow.aquatexteditor.filemanager.FileManager;
 
 public class MainWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JTextArea fileContentArea;
 	
+	private MainController controller;
+	
+	
+	public MainWindow(MainController controller) {
+		this.controller = controller;
+	}
 	
 	public void draw() {
 		setTitle("AquaTextEditor");
@@ -72,34 +74,21 @@ public class MainWindow extends JFrame {
 		if (name.equals("New")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				checkIfSaveFile();
-				fileContentArea.setText("");
-				setTitle("AquaTextEditor");
-				MainController.openedFile = null;
+				controller.handleNewButton();
 			}
 			});
 		}
 		else if (name.equals("Save")) {
 			button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				verifyFileSaving();
+				controller.handleSaveButton();
 			}
 			});
 		}
 		else if (name.equals("Open")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					checkIfSaveFile();
-					
-					JFileChooser fileChooser = new JFileChooser();
-					fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-					int returnValue = fileChooser.showOpenDialog(MainWindow.this);
-					
-					if (returnValue == JFileChooser.APPROVE_OPTION) {
-						File file = fileChooser.getSelectedFile();
-						FileManager.openFile(file, fileContentArea);
-						setTitle("AquaTextEditor ("+ MainController.openedFile.getFile().getName() +")");
-					}
+					controller.handleOpenButton();
 				}
 			});
 		}
@@ -114,39 +103,12 @@ public class MainWindow extends JFrame {
 		else if (name.equals("Settings")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SettingsWindow settingsWindow = new SettingsWindow(fileContentArea);
-					settingsWindow.draw();
+					controller.handleSettingsButton();
 				}
 			});
 		}
 		
 		return button;
-	}
-	
-	private void checkIfSaveFile() {
-		if ((MainController.openedFile != null && MainController.openedFile.getContent() != fileContentArea.getText()) || (MainController.openedFile == null && !fileContentArea.getText().equals(""))) {
-			int option = JOptionPane.showConfirmDialog(this, "Do you want to save current file?", "Save file", JOptionPane.YES_NO_OPTION);
-			if (option == JOptionPane.YES_OPTION) {
-			    verifyFileSaving();
-			}
-		}
-	}
-	
-	private void verifyFileSaving() {
-		if (MainController.openedFile == null) {
-			JFileChooser fileChooser = new JFileChooser();
-			int returnValue = fileChooser.showSaveDialog(this);
-			
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				String message = FileManager.saveToNewFile(fileContentArea.getText(), file);
-				
-				JOptionPane.showMessageDialog(this, message);
-			}
-		}
-		else {
-			FileManager.saveToExistingFile(fileContentArea.getText(), MainController.openedFile.getFile());
-		}
 	}
 
 	public JTextArea getFileContentArea() {

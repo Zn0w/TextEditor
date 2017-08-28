@@ -10,6 +10,9 @@ class KeyboardController implements KeyListener {
 	private JTextArea fileContentArea;
 	private boolean shiftIsPressed = false;
 	
+	private boolean quotesAuto = true;
+	private boolean apostropheAuto = true;
+	
 	
 	public KeyboardController(JTextArea fileContentArea) {
 		this.fileContentArea = fileContentArea;
