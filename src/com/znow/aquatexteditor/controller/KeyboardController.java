@@ -6,13 +6,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextArea;
 
 
-public class KeyboardController implements KeyListener {
+class KeyboardController implements KeyListener {
 	
 	private JTextArea fileContentArea;
 	private boolean shiftIsPressed = false;
 	
 	
-	public KeyboardController(JTextArea fileContentArea) {
+	protected KeyboardController(JTextArea fileContentArea) {
 		this.fileContentArea = fileContentArea;
 	}
 	
@@ -28,6 +28,7 @@ public class KeyboardController implements KeyListener {
 	
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
+		System.out.println(key);
 		String text = fileContentArea.getText();
 		
 		if (key == 222 && !shiftIsPressed) {
@@ -40,6 +41,14 @@ public class KeyboardController implements KeyListener {
 		}
 		else if (key == 44 && shiftIsPressed) {
 			text += ">";
+			fileContentArea.setText(text);
+		}
+		else if (key == 91 && shiftIsPressed) {
+			text += "}";
+			fileContentArea.setText(text);
+		}
+		else if (key == 57 && shiftIsPressed) {
+			text += ")";
 			fileContentArea.setText(text);
 		}
 		
