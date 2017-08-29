@@ -1,5 +1,6 @@
 package com.znow.aquatexteditor.controller;
 
+import java.awt.Font;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -7,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.znow.aquatexteditor.domain.OpenedFile;
 import com.znow.aquatexteditor.filemanagers.FileManager;
+import com.znow.aquatexteditor.filemanagers.SettingsFileManager;
 import com.znow.aquatexteditor.gui.MainWindow;
 import com.znow.aquatexteditor.gui.SettingsWindow;
 
@@ -17,13 +19,19 @@ public class MainController {
 	private MainWindow mainWindow;
 	
 	private FileManager fileManager;
+	private SettingsFileManager settingsFileManager;
 	
 	private KeyboardController keyboardController;
 	
 	
+	
 	public void start() {
+		settingsFileManager = new SettingsFileManager();
+		
 		mainWindow = new MainWindow(this);
 		mainWindow.draw();
+		
+		mainWindow.getFileContentArea().setFont(new Font(settingsFileManager.getFont(), Font.PLAIN, Integer.valueOf(settingsFileManager.getFontSize())));
 		
 		keyboardController = new KeyboardController(mainWindow.getFileContentArea());
 		mainWindow.getFileContentArea().addKeyListener(keyboardController);
@@ -55,7 +63,7 @@ public class MainController {
 	}
 	
 	public void handleSettingsButton() {
-		SettingsWindow settingsWindow = new SettingsWindow(mainWindow.getFileContentArea());
+		SettingsWindow settingsWindow = new SettingsWindow(mainWindow.getFileContentArea(), settingsFileManager);
 		settingsWindow.draw();
 	}
 	

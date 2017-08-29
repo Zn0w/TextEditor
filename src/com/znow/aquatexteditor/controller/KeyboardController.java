@@ -5,13 +5,11 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextArea;
 
-class KeyboardController implements KeyListener {
+
+public class KeyboardController implements KeyListener {
 	
 	private JTextArea fileContentArea;
 	private boolean shiftIsPressed = false;
-	
-	private boolean quotesAuto = true;
-	private boolean apostropheAuto = true;
 	
 	
 	public KeyboardController(JTextArea fileContentArea) {
@@ -38,6 +36,10 @@ class KeyboardController implements KeyListener {
 		}
 		else if (key == 222 && shiftIsPressed) {
 			text += '"';
+			fileContentArea.setText(text);
+		}
+		else if (key == 44 && shiftIsPressed) {
+			text += ">";
 			fileContentArea.setText(text);
 		}
 		

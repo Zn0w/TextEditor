@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.znow.aquatexteditor.filemanagers.SettingsFileManager;
+
 @SuppressWarnings("serial")
 public class SettingsWindow extends JFrame {
 	
@@ -18,9 +20,12 @@ public class SettingsWindow extends JFrame {
 	
 	private JTextArea fileContentArea;
 	
+	private SettingsFileManager settingsFileManager;
 	
-	public SettingsWindow(JTextArea fileContentArea) {
+	
+	public SettingsWindow(JTextArea fileContentArea, SettingsFileManager settingsFileManager) {
 		this.fileContentArea = fileContentArea;
+		this.settingsFileManager = settingsFileManager;
 	}
 	
 	public void draw() {
@@ -53,6 +58,8 @@ public class SettingsWindow extends JFrame {
 				
 				Font oldFont = fileContentArea.getFont();
 				fileContentArea.setFont(new Font(font, oldFont.getStyle(), oldFont.getSize()));
+				
+				settingsFileManager.setFont(font);
 			}
 		});
 		
@@ -73,6 +80,8 @@ public class SettingsWindow extends JFrame {
 				
 				Font oldFont = fileContentArea.getFont();
 				fileContentArea.setFont(new Font(oldFont.getFontName(), oldFont.getStyle(), Integer.valueOf(size)));
+				
+				settingsFileManager.setFontSize(size);
 			}
 		});
 		
