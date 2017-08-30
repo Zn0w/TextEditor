@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import javax.swing.JTextArea;
-
-import com.znow.aquatexteditor.controller.MainController;
 import com.znow.aquatexteditor.domain.OpenedFile;
 
 public class FileManager {
+	
+	private OpenedFile openedFile;
+	
 	
 	public String saveToNewFile(String content, File file) {
 		String message = "";
@@ -29,32 +29,35 @@ public class FileManager {
 			message = "Error! Couldn't create new file.";
 		}
 		
-		saveToExistingFile(content, file);
+		openedFile = new OpenedFile(file, "");
+		
+		saveToCurrentFile(content);
 		
 		return message;
 	}
 	
-	public void saveToExistingFile(String content, File file) {
+	public void saveToCurrentFile(String content) {
 		content = content.replaceAll("(?!\\r)\\n", "\r\n");
 		
 		FileWriter writer = null;
 		
 		try {
-			writer = new FileWriter(file, false);
+			writer = new FileWriter(openedFile.getFile(), false);
 			writer.write(content);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				writer.close();
+				if (writer != null)
+					writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void openFile(File file, JTextArea fileContentArea, MainController controller) {
+	public void openFile(File file) {
 		Scanner scan = null;
 		try {
 			scan = new Scanner(file);
@@ -71,9 +74,15 @@ public class FileManager {
 			
 		}
 		
-		controller.openedFile = new OpenedFile(file, content);
-		
-		fileContentArea.setText(content);
+		openedFile = new OpenedFile(file, content);
+	}
+
+	public OpenedFile getOpenedFile() {
+		return openedFile;
+	}
+
+	public void setOpenedFile(OpenedFile openedFile) {
+		this.openedFile = openedFile;
 	}
 	
 }

@@ -1,2 +1,2 @@
-font;Comic Sans MS
-fontsize;20
+font;Segoe UI
+fontsize;22
