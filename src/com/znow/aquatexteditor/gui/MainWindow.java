@@ -95,8 +95,7 @@ public class MainWindow extends JFrame {
 		else if (name.equals("Save as ...")) {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Save as...");
-					System.out.println(fileContentArea.getText());
+					controller.handleSaveAsButton();
 				}
 			});
 		}

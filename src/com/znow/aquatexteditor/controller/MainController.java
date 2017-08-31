@@ -41,6 +41,18 @@ public class MainController {
 		verifyFileSaving();
 	}
 	
+	public void handleSaveAsButton() {
+		JFileChooser fileChooser = new JFileChooser();
+		int returnValue = fileChooser.showSaveDialog(mainWindow);
+		
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			String message = fileManager.saveToNewFile(mainWindow.getFileContentArea().getText(), file);
+			
+			JOptionPane.showMessageDialog(mainWindow, message);
+		}
+	}
+	
 	public void handleOpenButton() {
 		checkIfSaveFile();
 		
